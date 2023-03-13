@@ -129,6 +129,22 @@ bool Unit::isDead(){
 	else return false;
 }
 
+void Unit::equip(Equipment *A){
+	vector<int> stat = A->getStat();
+	if(equipment){
+		vector<int> prestat = equipment->getStat();
+		hpmax -= prestat[0];
+		atk -= prestat[1];
+		def -= prestat[2];
+	}
+	hpmax += stat[0];
+	atk += stat[1];
+	def += stat[2];
+	if(hp>hpmax) hp = hpmax;
+
+	equipment = A;
+}
+
 void drawScene(char p_action,int p,char m_action,int m){
 	cout << "                                                       \n";
 	if(p_action == 'A'){
@@ -188,4 +204,18 @@ void playerLose(){
 	cout << "*                                                     *\n";
 	cout << "*******************************************************\n";
 };
+
+Equipment::Equipment(int a,int b,int c){
+	hpmax = a;
+	atk = b;
+	def = c;
+}
+
+vector<int> Equipment::getStat(){
+	vector<int> s(3);
+	s[0] = hpmax;
+	s[1] = atk;
+	s[2] = def;
+	return s;
+}
 

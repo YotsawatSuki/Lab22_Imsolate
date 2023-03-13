@@ -83,7 +83,10 @@ int Unit::beAttacked(int oppatk){
 	if(oppatk > def){
 		dmg = oppatk-def;	
 		if(guard_on) dmg = dmg/3;
-		if(dodge_on){
+	}	
+	hp -= dmg;
+	if(hp <= 0){hp = 0;}
+	if(dodge_on){
 		int pos = rand()%2;
 		switch(pos){	
 			case 0: 
@@ -94,10 +97,6 @@ int Unit::beAttacked(int oppatk){
 				break;
 		}
 	}
-	}	
-	hp -= dmg;
-	if(hp <= 0){hp = 0;}
-	
 	return dmg;	
 }
 
@@ -137,11 +136,13 @@ void Unit::equip(Equipment *A){
 		atk -= prestat[1];
 		def -= prestat[2];
 	}
+	
 	hpmax += stat[0];
 	atk += stat[1];
 	def += stat[2];
-	if(hp>hpmax) hp = hpmax;
-
+	if(hp>hpmax){ 
+		hp = hpmax;
+	}
 	equipment = A;
 }
 
